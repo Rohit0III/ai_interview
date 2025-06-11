@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { OctagonAlertIcon } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
+import { FaGoogle, FaGithub } from 'react-icons/fa';
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,37 +19,40 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card"
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 
 
 
 
 
 const formSchema = z.object({
-    name:z.string().min(1,{message:"Name os Required"}),
+    name: z.string().min(1, { message: "Name os Required" }),
     email: z.string().email(),
     password: z.string().min(1, { message: "Password required for login in" }),
-    confirmPassord:z.string().min(1,{message:"Re-enter the Password"}),
-}).refine((data) => data.password === data.confirmPassord,{message:"Password is Not same",
-    path:["confirmPassord"],
+    confirmPassord: z.string().min(1, { message: "Re-enter the Password" }),
+}).refine((data) => data.password === data.confirmPassord, {
+    message: "Password is Not same",
+    path: ["confirmPassord"],
 
 })
 
 
 
 export const SignUpView = () => {
-    const router = useRouter();
+    const router =useRouter();
+
     const [error, seterror] = useState<string | null>(null)
     const [loading, setloading] = useState(false)
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            name:"",
+            name: "",
             email: "",
             password: "",
-            confirmPassord:"",
+            confirmPassord: "",
 
         }
     });
@@ -60,21 +64,40 @@ export const SignUpView = () => {
 
         authClient.signUp.email(
             {
-                name:data.name,
+                name: data.name,
                 email: data.email,
                 password: data.password,
+                callbackURL:("/"),
             },
             {
                 onSuccess: () => {
                     setloading(false)
-                    router.push("/");
+                    router.push("/")
+                    
                 },
                 onError: ({ error }) => seterror(error.message)
             }
         )
-
-
     }
+    
+     const onSocial = (provider:"github" | "google") => {
+        seterror(null);
+        setloading(true)
+
+        authClient.signIn.social(
+            {
+              provider:provider,
+              callbackURL:("/"),
+            },
+            {
+                onSuccess: () => {
+                    setloading(false)
+                },
+                onError: ({ error }) => seterror(error.message)
+            }
+        )
+    }
+
     return (
         <div className="flex flex-col gap-6">
             <Card className=" overflow-hidden p-0">
@@ -155,14 +178,14 @@ export const SignUpView = () => {
                                         )} />
                                 </div>
 
-                                 <div className="grid gap-3">
+                                <div className="grid gap-3">
                                     <FormField
                                         control={form.control}
                                         name="confirmPassord"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>
-                                                   Confirm Password
+                                                    Confirm Password
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
@@ -175,7 +198,7 @@ export const SignUpView = () => {
                                             </FormItem>
                                         )} />
                                 </div>
-                                
+
                                 {!!error && (
                                     <Alert className="bg-destructive/10 border-none">
                                         < OctagonAlertIcon className="h-4 w-4 !text-destructive" />
@@ -186,7 +209,7 @@ export const SignUpView = () => {
                                     disabled={loading}
                                     type="submit"
                                     className="w-full">
-                                    Sign In
+                                    Sign Up
                                 </Button>
 
                                 <div className="after:border-border relative text-center text-sm after:absolute
@@ -198,18 +221,24 @@ export const SignUpView = () => {
                                 <div className="grid grid-cols-2 gap-4">
                                     <Button
                                         disabled={loading}
+                                        onClick={() => {
+                                            onSocial("google")
+                                        }}
                                         variant={"outline"}
                                         type="button"
                                         className="w-full">
-                                        Google
+                                        <FaGoogle/> Google
                                     </Button>
 
                                     <Button
                                         disabled={loading}
+                                         onClick={() => {
+                                            onSocial("github")
+                                        }}
                                         variant={"outline"}
                                         type="button"
                                         className="w-full">
-                                        Github
+                                      <FaGithub/>  Github
                                     </Button>
                                 </div>
                                 <div className="text-center text-sm">
