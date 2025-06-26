@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useTRPC } from "@/trpc/client";
 
-import { AgentGetOne } from "../types";
+import { AgentGetOne } from "../../types";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { agentInsertSchema } from "../schemas";
+import { agentInsertSchema } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
