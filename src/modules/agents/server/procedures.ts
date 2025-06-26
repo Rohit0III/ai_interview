@@ -1,17 +1,26 @@
 
 import { db } from "@/Database"
 import { agents } from "@/Database/schema"
-import { baseProcedure, createTRPCRouter, protectedProcedure } from "@/trpc/init"
+import {  createTRPCRouter, protectedProcedure } from "@/trpc/init"
 import { agentInsertSchema } from "../schemas"
 import z from "zod"
-import { eq } from "drizzle-orm"
+import { eq, getTableColumns, sql } from "drizzle-orm"
 
 
 
 export const agentsRouter = createTRPCRouter({
      // TODO: Change "getOne" to use "proctectedProcedure"
-    getOne:protectedProcedure.input(z.object({id:z.string()})).query(async ({input})=>{
-        const [existingAgent] = await db.select()
+    getOne:protectedProcedure
+    .input(z.object({id:z.string()}))
+    .query(async ({input})=>{
+        const [existingAgent] = await db
+        .select(
+          {
+            // TODO: Change to actual meeting count
+            meetingCount: sql`COUNT(5)`,
+          ...getTableColumns(agents),
+        }
+        )
         .from(agents)
         .where(eq(agents.id, input.id))
         
