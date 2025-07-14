@@ -46,11 +46,8 @@ export const AgentForm = ({
                     trpc.agents.getMany.queryOptions({}),
                 )
 
-                if(initialValues?.id){
-                    await queryClient.invalidateQueries(
-                        trpc.agents.getOne.queryOptions({id: initialValues.id})
-                    )
-                }
+                // TODO: Invalidate Free tier usage
+
                 onSuccess?.();
 
              },
@@ -69,12 +66,34 @@ export const AgentForm = ({
         }
     })
 
+      const updateAgent = useMutation(
+        trpc.agents.update.mutationOptions({
+            onSuccess: async () => {
+                await queryClient.invalidateQueries(
+                    trpc.agents.getMany.queryOptions({}),
+                )
+
+                if(initialValues?.id){
+                    await queryClient.invalidateQueries(
+                        trpc.agents.getOne.queryOptions({id: initialValues.id})
+                    )
+                }
+                onSuccess?.();
+
+             },
+            onError: (error) => {
+                toast.error(error.message)
+                // Todo: Check if error code is "Forbidden" , redirect to "/upgrade"
+             }
+        })
+    )
+
     const isEditMode = !!initialValues?.id
-    const isPending = createAgent.isPending;
+    const isPending = createAgent.isPending || updateAgent.isPending;
 
     const onSubmit = (values: z.infer<typeof agentInsertSchema>) => {
         if (isEditMode) {
-            console.log("Edit mode is not implemented yet");
+            updateAgent.mutate({...values,id:initialValues.id})
         } else {
             createAgent.mutate(values)
         }
