@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/sidebar"
 import { usePathname } from "next/navigation"
 import { DashboardUserButton } from "./dashboard-user-button"
+import { DashboardTrail } from "./dashboard-trail"
 
 
 
@@ -121,8 +122,10 @@ export const DashboardSidebar = () => {
             </SidebarContent>
 
             <SidebarFooter className="text-white">
+                 
+                <DashboardTrail/>
                 <DashboardUserButton />
-            </SidebarFooter>
+             </SidebarFooter>
 
         </Sidebar>
 
