@@ -8,7 +8,6 @@ import {
     MessageNewEvent,
     CallEndedEvent,
     CallTranscriptionReadyEvent,
-    CallSessionParticipantJoinedEvent,
     CallRecordingReadyEvent,
     CallSessionStartedEvent,
     CallSessionParticipantLeftEvent,

@@ -2,7 +2,7 @@ import { createAvatar } from "@dicebear/core"
 import { botttsNeutral, initials } from "@dicebear/collection"
 
 
-import { cn } from "@/lib/utils"
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 interface GeneratedAvatarProps {
@@ -11,7 +11,7 @@ interface GeneratedAvatarProps {
     variant: "botttsNeutral" | "initials"
 }
 
-export const GeneratedAvatar = ({ seed, className, variant }: GeneratedAvatarProps) => {
+export const GeneratedAvatar = ({ seed, variant }: GeneratedAvatarProps) => {
     let avatar;
 
     if (variant === "botttsNeutral") {

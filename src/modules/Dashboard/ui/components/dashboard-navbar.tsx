@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 
-import { PanelLeft, PanelLeftCloseIcon, PanelLeftIcon, PanelRight, SearchIcon } from "lucide-react"
+import { PanelLeftCloseIcon, PanelLeftIcon,  SearchIcon } from "lucide-react"
 import DashboardCommand from "./dashboar-command"
 import { useEffect, useState } from "react"
 
