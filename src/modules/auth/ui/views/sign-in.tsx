@@ -1,3 +1,4 @@
+
 "use client"
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -20,6 +21,7 @@ import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
 
@@ -194,7 +196,7 @@ export const SignInView = () => {
 
                     <div className="bg-radial from-sidebar-accent to-sidebar relative hidden md:flex flex-col 
                     gap-y-4 items-center justify-center">
-                        <img src="/logo.png" alt="Image" className="h-[92px] w-[92px]" />
+                        <Image src="/logo.png" alt="Image" className="h-[92px] w-[92px]" />
                         <p className="text-2xl font-semibold text-white text-shadow-2xs uppercase">
                             AI-Interviewer
                         </p>

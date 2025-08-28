@@ -2,7 +2,6 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import { cache } from 'react';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
-import next from 'next';
 import { polarClient } from '@/lib/polar';
 import { db } from '@/Database';
 import { count, eq } from 'drizzle-orm';

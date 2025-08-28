@@ -95,6 +95,6 @@ export const UpgradeViewLoading =() =>{
 
 export const UpgradeViewError =() =>{
     return(
-<LoadingState title={"Error"} description={" Please try again later"} />
+<ErrorState title={"Error"} description={" Please try again later"} />
     )
 }

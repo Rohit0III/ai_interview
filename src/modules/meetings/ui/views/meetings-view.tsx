@@ -8,7 +8,6 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { columns } from "../components/columns";
 import { EmptyState } from "@/components/empty-state";
 import { useRouter } from "next/navigation";
-import { use } from "react";
 import { useMeetingsFilters } from "../../hooks/use-meetings-filters";
 import DataPagination from "@/components/data-pagination";
 
