@@ -1,7 +1,7 @@
 
 import { db } from "@/Database"
 import { agents } from "@/Database/schema"
-import { createTRPCRouter, protectedProcedure } from "@/trpc/init"
+import { createTRPCRouter, premiumProcedure, protectedProcedure } from "@/trpc/init"
 import { agentInsertSchema, agentUpdateSchema } from "../schemas"
 import z from "zod"
 import { and, desc, count, eq, getTableColumns, ilike, sql } from "drizzle-orm"
@@ -140,7 +140,7 @@ export const agentsRouter = createTRPCRouter({
   // You need to define an input schema, for example using zod:
   // import { z } from "zod"
   // input: z.object({ name: z.string() })
-  create: protectedProcedure
+  create: premiumProcedure("agents")
     .input(agentInsertSchema)
     .mutation(async ({ input, ctx }) => {
       const [createdAgent] = await db.insert(agents).values(

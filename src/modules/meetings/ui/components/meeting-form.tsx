@@ -26,8 +26,8 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { MeetingGetOne } from "../../types";
 import { useState } from "react";
-import { set } from "date-fns";
 import { NewAgentDialog } from "@/modules/agents/ui/components/new-agent-dialog";
+import { useRouter } from "next/navigation";
 
 interface MeetingFormProps {
     onSuccess?: (id?: string) => void;
@@ -42,6 +42,7 @@ export const MeetingForm = ({
 }: MeetingFormProps) => {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const [openNewAgentDialog, setOpenAgentDialog] = useState(false)
     const [agentSearch, setAgentSearch] = useState("")
@@ -60,7 +61,9 @@ export const MeetingForm = ({
                     trpc.meetings.getMany.queryOptions({}),
                 )
 
-                // TODO: Invalidate Free tier usage
+                  await queryClient.invalidateQueries(
+                    trpc.premium.getFreeUsage.queryOptions(),
+                )
 
                 onSuccess?.(data.id);
 
@@ -68,6 +71,11 @@ export const MeetingForm = ({
             onError: (error) => {
                 toast.error(error.message)
                 // Todo: Check if error code is "Forbidden" , redirect to "/upgrade"
+
+                 if(error.data?.code === "FORBIDDEN"){
+                    router.push("/upgrade")
+
+                }
             }
         })
     )

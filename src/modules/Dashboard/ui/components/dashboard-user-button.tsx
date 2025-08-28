@@ -20,7 +20,7 @@ import {
 import { GeneratedAvatar } from "@/components/generate-avatar";
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import {  ChevronUpIcon, CreditCardIcon, LogOutIcon } from "lucide-react";
-import { redirect, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 
@@ -78,8 +78,7 @@ export const DashboardUserButton = () => {
                     <DrawerFooter>
                         <Button
                         variant="outline"
-                        onClick={()=>{
-                        }}
+                        onClick={()=> authClient.customer.portal()}
                         >
                             <CreditCardIcon className="size-4 text-black"/>
                             Billing
@@ -135,7 +134,9 @@ export const DashboardUserButton = () => {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer flex items-center justify-between ">
+                <DropdownMenuItem
+                onClick={()=> authClient.customer.portal()}
+                className="cursor-pointer flex items-center justify-between ">
                     Billing
                     <CreditCardIcon className="size-4" />
                 </DropdownMenuItem>
